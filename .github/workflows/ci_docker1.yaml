@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "new-challenge""
+      - "new-challenge"
     paths-ignore:
       - ".github/**"
       - "README.md"
