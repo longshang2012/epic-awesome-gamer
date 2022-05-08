@@ -1,4 +1,4 @@
-name: ci
+name: ci-mimic
 
 on:
   workflow_dispatch:

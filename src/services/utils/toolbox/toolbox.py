@@ -349,6 +349,7 @@ def get_challenge_ctx(
             user_data_dir=user_data_dir,
         )
     # 避免核心并行
+    
     except OSError:
         return uc.Chrome(headless=silence, options=options, user_data_dir=user_data_dir)
     # 棄用索引緩存
