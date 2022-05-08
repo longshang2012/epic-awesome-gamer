@@ -299,7 +299,8 @@ def _set_ctx(language: Optional[str] = None) -> ChromeOptions:
     options.add_argument("--no-sandbox")
 
     # 统一挑战语言
-    os.environ["LANGUAGE"] = "zh-CN" if language is None else language
+    os.environ["LANG"] = "zh_CN.UTF-8"
+    os.environ["LANGUAGE"] = "zh" if language is None else language
     for i in os.environ.items():
         print(i)
     options.add_argument(f"--lang={os.getenv('LANGUAGE', '')}")
