@@ -337,8 +337,6 @@ def get_challenge_ctx(
     logger.debug(ToolBox.runtime_report("__Context__", "ACTIVATE", "🎮 激活挑战者上下文"))
 
     silence = True if silence is None or "linux" in sys.platform else silence
-    if os.getenv("NOT_SILENCE"):
-        silence = False
 
     options = _set_ctx()
     driver_executable_path = ChromeDriverManager(log_level=0).install()
@@ -346,12 +344,15 @@ def get_challenge_ctx(
     print(f"{driver_executable_path=}")
     print(f"{version_main=}")
 
+    if not os.path.exists("user"):
+        os.mkdir("user")
+
     try:
         return uc.Chrome(
             headless=silence,
             options=options,
             driver_executable_path=driver_executable_path,
-            user_data_dir=user_data_dir,
+            user_data_dir="user/",
         )
     # 避免核心并行
     except OSError:
