@@ -337,10 +337,14 @@ def get_challenge_ctx(
     logger.debug(ToolBox.runtime_report("__Context__", "ACTIVATE", "🎮 激活挑战者上下文"))
 
     silence = True if silence is None or "linux" in sys.platform else silence
+    if os.getenv("NOT_SILENCE"):
+        silence = False
 
     options = _set_ctx()
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
+    print(f"{driver_executable_path=}")
+    print(f"{version_main=}")
 
     try:
         return uc.Chrome(
