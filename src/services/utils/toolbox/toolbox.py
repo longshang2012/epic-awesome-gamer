@@ -296,7 +296,6 @@ def _set_ctx(language: Optional[str] = None) -> ChromeOptions:
     options = ChromeOptions()
     options.add_argument("--log-level=3")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--no-sandbox")
 
     # 统一挑战语言
     os.environ["LANG"] = "zh_CN.UTF-8"
@@ -314,6 +313,9 @@ def get_ctx(silence: Optional[bool] = None, fast: Optional[bool] = False) -> Sta
     options = _set_ctx()
     if silence is True:
         options.add_argument("--headless")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--start-maximized")
+        options.add_argument("--no-sandbox")
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-software-rasterizer")
     if fast is True:
@@ -334,11 +336,15 @@ def get_challenge_ctx(
     """挑战者驱动 用于处理人机挑战"""
     logger.debug(ToolBox.runtime_report("__Context__", "ACTIVATE", "🎮 激活挑战者上下文"))
 
+    options = _set_ctx()
+
     silence = True if silence is None or "linux" in sys.platform else silence
     if os.getenv("NOT_SILENCE"):
         silence = False
+    if silence is True:
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-software-rasterizer")
 
-    options = _set_ctx()
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
 
