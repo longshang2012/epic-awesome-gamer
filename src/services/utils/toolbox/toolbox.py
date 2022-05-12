@@ -338,19 +338,13 @@ def get_challenge_ctx(
 
     options = _set_ctx()
 
-    silence = True if silence is None or "linux" in sys.platform else silence
-    if silence is True:
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-software-rasterizer")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # silence = True if silence is None or "linux" in sys.platform else silence
 
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
 
     print(f"{driver_executable_path=}")
     print(f"{version_main=}")
-    print(f"{silence=}")
     for i in os.environ.items():
         print(i)
 
