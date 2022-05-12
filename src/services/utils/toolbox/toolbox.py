@@ -301,8 +301,6 @@ def _set_ctx(language: Optional[str] = None) -> ChromeOptions:
     # 统一挑战语言
     os.environ["LANG"] = "zh_CN.UTF-8"
     os.environ["LANGUAGE"] = "zh" if language is None else language
-    for i in os.environ.items():
-        print(i)
     options.add_argument(f"--lang={os.getenv('LANGUAGE', '')}")
 
     return options
@@ -337,22 +335,25 @@ def get_challenge_ctx(
     logger.debug(ToolBox.runtime_report("__Context__", "ACTIVATE", "🎮 激活挑战者上下文"))
 
     silence = True if silence is None or "linux" in sys.platform else silence
+    if os.getenv("NOT_SILENCE"):
+        silence = False
 
     options = _set_ctx()
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
+
     print(f"{driver_executable_path=}")
     print(f"{version_main=}")
-
-    if not os.path.exists("user"):
-        os.mkdir("user")
+    print(f"{silence=}")
+    for i in os.environ.items():
+        print(i)
 
     try:
         return uc.Chrome(
             headless=silence,
             options=options,
             driver_executable_path=driver_executable_path,
-            user_data_dir="user/",
+            user_data_dir=user_data_dir,
         )
     # 避免核心并行
     except OSError:
