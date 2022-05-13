@@ -349,11 +349,16 @@ def get_challenge_ctx(
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
 
+    if silence is True:
+        options.add_argument("--disable-web-security")
+        options.add_argument("--disable-setuid-sandbox")
+        options.add_argument("--disable-accelerated-2d-canvas")
+
+    user_agent = f"--user-agent={random.choice(MASKER)}"
     if os.getenv("FAKE"):
-        user_agent = f"--user-agent={random.choice(MASKER)}"
         options.add_argument(user_agent)
         print(f"{user_agent=}")
-        
+
     print(f"{driver_executable_path=}")
     print(f"{version_main=}")
     for i in os.environ.items():
