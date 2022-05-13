@@ -365,12 +365,17 @@ def get_challenge_ctx(
         print(i)
 
     try:
-        return uc.Chrome(
+        ctx = uc.Chrome(
             headless=silence,
             options=options,
             driver_executable_path=driver_executable_path,
             user_data_dir=user_data_dir,
         )
+        ctx.set_window_size(
+            width=1024 + random.randint(8, 100),
+            height=1024 + random.randint(8, 100)
+        )
+        return ctx
     # 避免核心并行
     except OSError:
         return uc.Chrome(headless=silence, options=options, user_data_dir=user_data_dir)
