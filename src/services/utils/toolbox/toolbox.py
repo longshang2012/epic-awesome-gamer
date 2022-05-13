@@ -313,14 +313,11 @@ def get_ctx(silence: Optional[bool] = None, fast: Optional[bool] = False) -> Sta
     options = _set_ctx()
     if silence is True:
         options.add_argument("--headless")
-        options.add_argument("--window-size=1920,1080")
-        options.add_argument("--start-maximized")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-software-rasterizer")
     if fast is True:
         options.add_argument("blink-settings=imagesEnabled=false")
-        options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("--disable-infobars")
         options.add_argument("--disable-javascript")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -338,7 +335,7 @@ def get_challenge_ctx(
 
     options = _set_ctx()
 
-    # silence = True if silence is None or "linux" in sys.platform else silence
+    silence = True if silence is None or "linux" in sys.platform else silence
 
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
@@ -347,6 +344,10 @@ def get_challenge_ctx(
     print(f"{version_main=}")
     for i in os.environ.items():
         print(i)
+
+    if os.getenv("FAKE"):
+        options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                             " (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36 Edg/101.0.1210.39")
 
     try:
         return uc.Chrome(
