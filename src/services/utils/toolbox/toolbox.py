@@ -185,7 +185,7 @@ class ToolBox:
 
     @staticmethod
     def transfer_cookies(
-        api_cookies: Union[List[Dict[str, str]], str]
+            api_cookies: Union[List[Dict[str, str]], str]
     ) -> Union[str, List[Dict[str, str]]]:
         """
         将 cookies 转换为可携带的 Request Header
@@ -200,7 +200,7 @@ class ToolBox:
 
     @staticmethod
     def date_format_now(
-        mode: Optional[str] = None, zone: Optional[str] = None, threshold: Optional[int] = None
+            mode: Optional[str] = None, zone: Optional[str] = None, threshold: Optional[int] = None
     ) -> str:
         """
         输出格式化日期
@@ -273,7 +273,7 @@ class ToolBox:
     def handle_html(url_, cookie: str = None, allow_redirects=False):
         headers = {
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/100.0.4896.75 Safari/537.36 Edg/100.0.1185.36"
+                          "Chrome/100.0.4896.75 Safari/537.36 Edg/100.0.1185.36"
         }
         if cookie is not None and isinstance(cookie, str):
             headers.update({"cookie": cookie})
@@ -327,8 +327,17 @@ def get_ctx(silence: Optional[bool] = None, fast: Optional[bool] = False) -> Sta
     return Chrome(ChromeDriverManager(log_level=0).install(), options=options)
 
 
+MASKER = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2919.83 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2866.71 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux i686 on x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2820.59 Safari/537.36",
+
+]
+
+
 def get_challenge_ctx(
-    silence: Optional[bool] = None, user_data_dir: Optional[str] = None
+        silence: Optional[bool] = None, user_data_dir: Optional[str] = None
 ) -> ChallengerContext:
     """挑战者驱动 用于处理人机挑战"""
     logger.debug(ToolBox.runtime_report("__Context__", "ACTIVATE", "🎮 激活挑战者上下文"))
@@ -340,14 +349,15 @@ def get_challenge_ctx(
     driver_executable_path = ChromeDriverManager(log_level=0).install()
     version_main = get_browser_version_from_os(ChromeType.GOOGLE).split(".")[0]
 
+    if os.getenv("FAKE"):
+        user_agent = f"--user-agent={random.choice(MASKER)}"
+        options.add_argument(user_agent)
+        print(f"{user_agent=}")
+        
     print(f"{driver_executable_path=}")
     print(f"{version_main=}")
     for i in os.environ.items():
         print(i)
-
-    if os.getenv("FAKE"):
-        options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-                             " (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36 Edg/101.0.1210.39")
 
     try:
         return uc.Chrome(
