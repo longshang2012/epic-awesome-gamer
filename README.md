@@ -15,7 +15,7 @@
 
 ![scaffold-get-demo-output-small](https://github.com/QIN2DIM/img_pool/blob/main/img/scaffold-get-demo-output-small.gif)
 
-[简体中文](https://www.wolai.com/vAiu9mSp6G15xhWeoEPUn2) | [English](https://github.com/QIN2DIM/epic-awesome-gamer/wiki)
+[简体中文](https://www.wolai.com/vAiu9mSp6G15xhWeoEPUn2) | [English](https://www.wolai.com/21QTQvaYwahfgrVvRyw11D)
 
 ## Introduction 👋
 
