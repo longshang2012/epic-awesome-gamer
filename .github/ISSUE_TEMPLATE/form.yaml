@@ -7,7 +7,7 @@ body:
     id: preview
     attributes:
       label: 提问前
-      description: 你可以在提交议题前按照如下步骤自己排查错误，提高问题的解决的效率。
+      description: 你可以在提交议题前按照如下步骤自己排查错误，提高问题的解决效率。
       options:
         - label: 我已重复运行多次，均出现同样的错误。
           required: true
