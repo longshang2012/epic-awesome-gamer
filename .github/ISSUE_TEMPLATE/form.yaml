@@ -1,59 +1,60 @@
 name: 🐞 Quesiton
-description: File a bug/issue
+description: 提交问题，有关<容器部署>或<工作流>的问题
 title: "[Quesiton] <title>"
 labels: [question]
 body:
 - type: checkboxes
   attributes:
-    label: Is there an existing issue for this?
-    description: Please search to see if an issue already exists for the bug you encountered.
+    label: 提问前
+    description: 你可以在提交议题前按照如下步骤自己排查错误，提高问题的解决的效率。
     options:
-    - label: I have searched the existing issues
+    - label: 我已重复运行多次，均出现同样的错误。
       required: true
+    - label: 我已回看技术文档，使用的配置方法或镜像文件均是最新版本。
+      required: true
+    - label: 我已浏览本项目以往的 issues，我遇到的是新问题！
+      required: true
+    - label: 我会使用 docker，运行指令未拼写错误
+      required: false
+- type: dropdown
+  id: solution
+  attributes:
+    label: 解决方案
+    description: 你使用的项目启动方式
+    options:
+      - 私有工作流
+      - 容器化
+	validations:
+	  required: true
 - type: textarea
   attributes:
-    label: Current Behavior
-    description: A concise description of what you're experiencing.
+    label: 简述问题
+    description: 描述一下你遇到的问题
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: 预期效果
+    description: 同样的操作，若运行正常，应该得到怎样的结果
   validations:
     required: false
 - type: textarea
   attributes:
-    label: Expected Behavior
-    description: A concise description of what you expected to happen.
-  validations:
-    required: false
-- type: textarea
-  attributes:
-    label: Steps To Reproduce
-    description: Steps to reproduce the behavior.
-    placeholder: |
-      1. In this environment...
-      2. With this config...
-      3. Run '...'
-      4. See error...
-  validations:
-    required: false
-- type: textarea
-  attributes:
-    label: Environment
+    label: 硬件环境
     description: |
       examples:
         - **OS**: Ubuntu 20.04
-        - **Node**: 13.14.0
-        - **npm**: 7.6.3
+        - **docker**: Docker version 20.10.7, build 20.10.7-0ubuntu5~20.04.2
     value: |
         - OS:
-        - Node:
-        - npm:
+        - docker:
     render: markdown
   validations:
     required: false
 - type: textarea
+  id: log
   attributes:
-    label: Anything else?
-    description: |
-      Links? References? Anything that will give us more context about the issue you are encountering!
-
-      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    label: 运行日志
+    placeholder: 工作流：将根目录下的 `runtime.log` 中的内容复制过来，容器的挂载日志路径为 `/home/epic/database/logs/runtime.log`
   validations:
-    required: false
+    required: true
