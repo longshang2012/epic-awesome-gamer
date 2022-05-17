@@ -1,9 +1,10 @@
-name: 🐞 Quesiton
+name: 🎃 Quesiton
 description: 提交问题，有关<容器部署>或<工作流>的问题
 title: "[Quesiton] <title>"
 labels: [ question ]
 body:
   - type: checkboxes
+    id: preview
     attributes:
       label: 提问前
       description: 你可以在提交议题前按照如下步骤自己排查错误，提高问题的解决的效率。
@@ -27,18 +28,21 @@ body:
     validations:
       required: true
   - type: textarea
+    id: question
     attributes:
       label: 简述问题
       description: 描述一下你遇到的问题
     validations:
       required: true
   - type: textarea
+    id: expected
     attributes:
       label: 预期效果
       description: 同样的操作，若运行正常，应该得到怎样的结果
     validations:
       required: false
   - type: textarea
+    id: env
     attributes:
       label: 硬件环境
       description: |
